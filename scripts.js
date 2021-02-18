@@ -14,6 +14,8 @@ const Modal = {
             .querySelector('.modal-overlay')
             .classList
             .remove('active')
+        
+        Form.clearFields()
     }
 }
 
@@ -40,6 +42,21 @@ const Transaction = {
         Transaction.all.splice(index, 1)
 
         App.reload()
+    },
+
+    edit(index) {
+        Form.setValues(index, Transaction.all[index])
+        Modal.open()
+    },
+
+    update(index, transaction) {
+        Transaction.all.forEach( (value, key) => {
+            if (key == index) {
+                value.description = transaction.description
+                value.amount = transaction.amount
+                value.date = transaction.date
+            }
+        })
     },
 
     incomes() {
@@ -78,7 +95,7 @@ const DOM = {
 
     addTransaction(transaction, index) {
         const tr = document.createElement('tr')
-        tr.innerHTML = DOM.innetHTMLTransaction(transaction)
+        tr.innerHTML = DOM.innetHTMLTransaction(transaction, index)
         tr.dataset.index = index
 
         DOM.transactionsContainer.appendChild(tr)
@@ -92,7 +109,8 @@ const DOM = {
             <td class="${CSSclass}">${Utils.formatCurrency(transaction.amount)}</td>
             <td class="date">${transaction.date}</td>
             <td>
-                <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação">
+                <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação" title="Remover">
+                <img onclick="Transaction.edit(${index})" src="./assets/edit.svg" alt="Editar transação" title="Editar">
             </td>
         `
 
@@ -144,16 +162,26 @@ const Utils = {
 }
 
 const Form = {
-    decription: document.querySelector('input#description'),
+    index: null,
+    description: document.querySelector('input#description'),
     amount: document.querySelector('input#amount'),
     date: document.querySelector('input#date'),
 
     getValues() {
         return {
-            description: Form.decription.value,
+            description: Form.description.value,
             amount: Form.amount.value,
             date: Form.date.value
         }
+    },
+
+    setValues(index, transaction) {
+        Form.index = index
+        Form.description.value = transaction.description
+        Form.amount.value = transaction.amount / 100
+        
+        const splittedDate = transaction.date.split("/")
+        Form.date.value = `${splittedDate[2]}-${splittedDate[1]}-${splittedDate[0]}`
     },
 
     formatValues() {
@@ -169,7 +197,8 @@ const Form = {
     },
 
     clearFields() {
-        Form.decription.value = ""
+        Form.index = null
+        Form.description.value = ""
         Form.amount.value = ""
         Form.date.value = ""
     },
@@ -189,7 +218,11 @@ const Form = {
             Form.validateFields()
             const transaction = Form.formatValues()
 
-            Transaction.add(transaction)
+            if (Form.index === null) {
+                Transaction.add(transaction)
+            } else {
+                Transaction.update(Form.index, transaction)
+            }
 
             Form.clearFields();
             Modal.close();

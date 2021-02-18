@@ -208,6 +208,15 @@ td.expense {
     color: #e92929
 }
 
+table tbody td:last-child {
+    text-align: center;
+}
+
+td img {
+    width: 1.5rem;
+    margin-left: 0.5rem;
+}
+
 /* MODAL */
 .modal-overlay {
     width: 100%;
