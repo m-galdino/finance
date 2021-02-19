@@ -238,7 +238,13 @@ const Form = {
 const App = {
     init() {
 
-        Transaction.all.forEach(DOM.addTransaction)
+        Transaction.all.forEach( (value, index) => {
+            if (value.description.toLowerCase().indexOf(pesquisar.value.toLowerCase()) >= 0) {
+                DOM.addTransaction(value, index)
+            }
+        })
+        
+        //Transaction.all.forEach(DOM.addTransaction)
         
         DOM.updateBalance()
 
@@ -249,6 +255,20 @@ const App = {
         DOM.clearTransactions()
 
         App.init()
+    },
+
+    filter() {
+        DOM.clearTransactions();
+
+        const pesquisar = document.querySelector('input#pesquisar')
+
+        Transaction.all.forEach( (value, index) => {
+            if (value.description.toLowerCase().indexOf(pesquisar.value.toLowerCase()) >= 0) {
+                DOM.addTransaction(value, index)
+            }
+        })
+        
+        DOM.updateBalance()
     }
 }
 

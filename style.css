@@ -151,6 +151,13 @@ header {
     color: #fff;
 }
 
+/* PESQUISAR */
+#pesquisar {
+    width: 100%;
+    margin: 1rem 0 0.5rem 0;
+    padding: 0.8rem;
+}
+
 /* TABLE */
 
 #transaction {
@@ -182,11 +189,11 @@ table th {
     text-align: left;    
 }
 
-table tr {
+table tbody tr {
     opacity: 0.7;
 }
 
-table tr:hover {
+table tbody tr:hover {
     opacity: 1;
 }
 
@@ -212,9 +219,26 @@ table tbody td:last-child {
     text-align: center;
 }
 
-td img {
+table tbody td img {
     width: 1.5rem;
     margin-left: 0.5rem;
+}
+
+table tfoot {
+    text-align: center;
+}
+
+table tfoot img {
+    width: 2rem;
+    opacity: 0.5;
+}
+
+table tfoot img:hover {
+    opacity: 1;
+}
+
+table tfoot span {
+    font-size: 1.3rem;
 }
 
 /* MODAL */
