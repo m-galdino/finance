@@ -97,22 +97,6 @@ const Transaction = {
     total() {
         return Transaction.incomes() + Transaction.expenses()
     },
-
-    print() {
-        const pesquisar = document.querySelector('input#pesquisar')
-
-        TOTAL = 0
-
-        Transaction.all.forEach( (value, index) => {
-            if (value.description.toLowerCase().indexOf(pesquisar.value.toLowerCase()) >= 0) {
-                TOTAL++
-        
-                if (DOM.counterRegister()+1 <= LIMIT && TOTAL > OFFSET) {
-                    DOM.addTransaction(value, index)
-                }
-            }
-        })
-    }
 }
 
 const DOM = {
@@ -159,6 +143,22 @@ const DOM = {
 
     clearTransactions() {
         DOM.transactionsContainer.innerHTML = ""
+    },
+
+    print() {
+        const pesquisar = document.querySelector('input#pesquisar')
+
+        TOTAL = 0
+
+        Transaction.all.forEach( (value, index) => {
+            if (value.description.toLowerCase().indexOf(pesquisar.value.toLowerCase()) >= 0) {
+                TOTAL++
+        
+                if (DOM.counterRegister()+1 <= LIMIT && TOTAL > OFFSET) {
+                    DOM.addTransaction(value, index)
+                }
+            }
+        })
     },
 
     counterRegister() {
@@ -286,7 +286,7 @@ const Form = {
 
 const App = {
     init() {        
-        Transaction.print()
+        DOM.print()
         
         DOM.updateBalance()
 
@@ -303,7 +303,7 @@ const App = {
 
         DOM.clearTransactions();        
 
-        Transaction.print()
+        DOM.print()
         
         DOM.updateBalance()
     }
