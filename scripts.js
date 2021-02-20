@@ -145,7 +145,12 @@ const DOM = {
         DOM.transactionsContainer.innerHTML = ""
     },
 
-    print() {
+    print(resetOffset = false) {
+
+        if (resetOffset) {
+            OFFSET = 0
+        }
+        
         const pesquisar = document.querySelector('input#pesquisar')
 
         TOTAL = 0
@@ -299,11 +304,9 @@ const App = {
         App.init()
     },
     filter() {
-        OFFSET = 0
-
         DOM.clearTransactions();        
 
-        DOM.print()
+        DOM.print(true)
         
         DOM.updateBalance()
     }
