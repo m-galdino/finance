@@ -1,3 +1,7 @@
+const LIMIT = 5
+let OFFSET = 0
+let TOTAL = 0
+
 const Modal = {
     open() {
         // Abrir Modal
@@ -40,6 +44,11 @@ const Transaction = {
 
     remove(index) {
         Transaction.all.splice(index, 1)
+
+        /** se exisitr apenas um regitro exibido, volto para pagina anterior */
+        if (DOM.counterRegister() == 1) {
+            OFFSET -= LIMIT
+        }
 
         App.reload()
     },
@@ -87,6 +96,22 @@ const Transaction = {
 
     total() {
         return Transaction.incomes() + Transaction.expenses()
+    },
+
+    print() {
+        const pesquisar = document.querySelector('input#pesquisar')
+
+        TOTAL = 0
+
+        Transaction.all.forEach( (value, index) => {
+            if (value.description.toLowerCase().indexOf(pesquisar.value.toLowerCase()) >= 0) {
+                TOTAL++
+        
+                if (DOM.counterRegister()+1 <= LIMIT && TOTAL > OFFSET) {
+                    DOM.addTransaction(value, index)
+                }
+            }
+        })
     }
 }
 
@@ -134,6 +159,30 @@ const DOM = {
 
     clearTransactions() {
         DOM.transactionsContainer.innerHTML = ""
+    },
+
+    counterRegister() {
+        return DOM.transactionsContainer.getElementsByTagName('tr').length
+    },
+
+    next() {
+        if (TOTAL <= (OFFSET + LIMIT)) {
+            return
+        }
+
+        OFFSET += LIMIT
+
+        App.reload()
+    },
+
+    previuos() {
+        if ((OFFSET - LIMIT) < 0) {
+            return
+        }
+
+        OFFSET -= LIMIT
+
+        App.reload()
     }
 }
 
@@ -236,15 +285,8 @@ const Form = {
 }
 
 const App = {
-    init() {
-
-        Transaction.all.forEach( (value, index) => {
-            if (value.description.toLowerCase().indexOf(pesquisar.value.toLowerCase()) >= 0) {
-                DOM.addTransaction(value, index)
-            }
-        })
-        
-        //Transaction.all.forEach(DOM.addTransaction)
+    init() {        
+        Transaction.print()
         
         DOM.updateBalance()
 
@@ -256,28 +298,15 @@ const App = {
 
         App.init()
     },
-
     filter() {
-        DOM.clearTransactions();
+        OFFSET = 0
 
-        const pesquisar = document.querySelector('input#pesquisar')
+        DOM.clearTransactions();        
 
-        Transaction.all.forEach( (value, index) => {
-            if (value.description.toLowerCase().indexOf(pesquisar.value.toLowerCase()) >= 0) {
-                DOM.addTransaction(value, index)
-            }
-        })
+        Transaction.print()
         
         DOM.updateBalance()
     }
 }
 
 App.init()
-
-// Transaction.add({
-//     description: 'Salário 2',
-//     amount: 500000,
-//     date: '23/01/2021'
-// })
-
-// Transaction.remove(0)

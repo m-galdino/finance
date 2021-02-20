@@ -172,6 +172,10 @@ header {
     color: #969cb3;
 }
 
+#nenhum-registro {
+    text-align: center;
+}
+
 table thead tr th:first-child,
 table tbody tr td:first-child {
     border-radius: 0.25rem 0 0 0.25rem;
@@ -224,21 +228,13 @@ table tbody td img {
     margin-left: 0.5rem;
 }
 
-table tfoot {
-    text-align: center;
+table tfoot tr td {
+    text-align: right;
+    padding: 2rem 2rem;
 }
 
-table tfoot img {
-    width: 2rem;
-    opacity: 0.5;
-}
-
-table tfoot img:hover {
-    opacity: 1;
-}
-
-table tfoot span {
-    font-size: 1.3rem;
+table tfoot tr td a {
+    margin-left: 1rem;
 }
 
 /* MODAL */
