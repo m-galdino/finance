@@ -11,6 +11,7 @@ const Modal = {
             .classList
             .add('active')
     },
+
     close() {
         // Fechar o modal
         // Remover a class active do modal
@@ -150,24 +151,46 @@ const DOM = {
         if (resetOffset) {
             OFFSET = 0
         }
-        
+
         const pesquisar = document.querySelector('input#pesquisar')
+        let nenhumRegistro = true
 
         TOTAL = 0
-
+        
         Transaction.all.forEach( (value, index) => {
             if (value.description.toLowerCase().indexOf(pesquisar.value.toLowerCase()) >= 0) {
                 TOTAL++
         
                 if (DOM.counterRegister()+1 <= LIMIT && TOTAL > OFFSET) {
                     DOM.addTransaction(value, index)
+                    nenhumRegistro = false
                 }
             }
         })
+
+        if (nenhumRegistro) {
+            DOM.noRegister()
+        } else {
+
+        }
+
+    },
+
+    noRegister() {
+        const tr = document.createElement('tr')
+
+        tr.innerHTML = `
+            <tr>
+                <td colspan="4">Nenhum registro</td>
+            </tr>
+        `
+        tr.dataset.id = 'nenhum-registro'
+
+        DOM.transactionsContainer.appendChild(tr)
     },
 
     counterRegister() {
-        return DOM.transactionsContainer.getElementsByTagName('tr').length
+        return DOM.transactionsContainer.querySelectorAll('tr[data-index]').length
     },
 
     next() {
@@ -195,10 +218,12 @@ const Utils = {
     formatAmount(value) {
         return Number(value) * 100        
     },
+
     formatDate(value) {
         const splittedDate = value.split("-")
         return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
     },
+
     formatCurrency(value) {
         const signal = Number(value) < 0 ? "-" : ""
 
@@ -290,7 +315,7 @@ const Form = {
 }
 
 const App = {
-    init() {        
+    init() {
         DOM.print()
         
         DOM.updateBalance()
@@ -298,13 +323,15 @@ const App = {
         Storage.set(Transaction.all)
         
     },
+
     reload() {
         DOM.clearTransactions()
 
         App.init()
     },
+
     filter() {
-        DOM.clearTransactions();        
+        DOM.clearTransactions();
 
         DOM.print(true)
         

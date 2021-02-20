@@ -172,7 +172,7 @@ header {
     color: #969cb3;
 }
 
-#nenhum-registro {
+[data-id="nenhum-registro"] {
     text-align: center;
 }
 
