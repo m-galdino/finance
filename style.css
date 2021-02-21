@@ -152,7 +152,7 @@ header {
 }
 
 /* PESQUISAR */
-#pesquisar {
+#search {
     width: 100%;
     margin: 1rem 0 0.5rem 0;
     padding: 0.8rem;
@@ -229,8 +229,12 @@ table tbody td img {
 }
 
 table tfoot tr td {
+    text-align: left;
+    padding: 2rem 0rem;
+}
+
+table tfoot tr td:last-child {
     text-align: right;
-    padding: 2rem 2rem;
 }
 
 table tfoot tr td a {

@@ -48,7 +48,7 @@
                 <h2 class="sr-only">Transações</h2>
 
                 <a href="#" onclick="Modal.open()" class="button new">+ Nova Transação</a>
-                <input type="text" id="pesquisar" onInput="App.filter()" placeholder="Pesquise por uma transação">
+                <input type="text" id="search" onInput="App.filter()" placeholder="Pesquise por uma transação">
                 
 
                 <table id="data-table">
@@ -65,7 +65,10 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="4">
+                            <td colspan="2">
+                                <span id="showing"></span>
+                            </td>
+                            <td colspan="2">
                                 <a href="#" onclick="DOM.previuos()" class="button" title="Registros anterior">Anterior</a>
                                 <a href="#" onclick="DOM.next()" class="button" title="Próximos registros">Próximo</a>
                             </td>

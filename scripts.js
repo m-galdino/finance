@@ -152,13 +152,13 @@ const DOM = {
             OFFSET = 0
         }
 
-        const pesquisar = document.querySelector('input#pesquisar')
+        const search = document.querySelector('input#search')
         let nenhumRegistro = true
 
         TOTAL = 0
         
         Transaction.all.forEach( (value, index) => {
-            if (value.description.toLowerCase().indexOf(pesquisar.value.toLowerCase()) >= 0) {
+            if (value.description.toLowerCase().indexOf(search.value.toLowerCase()) >= 0) {
                 TOTAL++
         
                 if (DOM.counterRegister()+1 <= LIMIT && TOTAL > OFFSET) {
@@ -171,12 +171,17 @@ const DOM = {
         if (nenhumRegistro) {
             DOM.noRegister()
         } else {
-
+            DOM.showing()
         }
 
     },
 
     noRegister() {
+        
+        document
+            .getElementById('showing')
+            .innerHTML = ""
+
         const tr = document.createElement('tr')
 
         tr.innerHTML = `
@@ -187,6 +192,12 @@ const DOM = {
         tr.dataset.id = 'nenhum-registro'
 
         DOM.transactionsContainer.appendChild(tr)
+    },
+
+    showing() {
+        document
+            .getElementById('showing')
+            .innerHTML = `Mostrando ${DOM.counterRegister() < LIMIT ? TOTAL : DOM.counterRegister()} de ${TOTAL}`
     },
 
     counterRegister() {
