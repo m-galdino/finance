@@ -153,7 +153,7 @@ const DOM = {
         }
 
         const search = document.querySelector('input#search')
-        let nenhumRegistro = true
+        let noRegister = true
 
         TOTAL = 0
         
@@ -163,12 +163,12 @@ const DOM = {
         
                 if (DOM.counterRegister()+1 <= LIMIT && TOTAL > OFFSET) {
                     DOM.addTransaction(value, index)
-                    nenhumRegistro = false
+                    noRegister = false
                 }
             }
         })
 
-        if (nenhumRegistro) {
+        if (noRegister) {
             DOM.noRegister()
         } else {
             DOM.showing()
